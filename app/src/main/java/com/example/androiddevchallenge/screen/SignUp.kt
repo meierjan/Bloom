@@ -8,6 +8,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.gray
 
 @Composable
 fun SignUp() {
@@ -26,6 +27,7 @@ fun SignUp() {
             text = "Log in with email",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h1,
+            color = MaterialTheme.colors.onBackground,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(
@@ -33,22 +35,37 @@ fun SignUp() {
                 .fillMaxWidth()
                 .height(8.dp)
         )
-        TextField(
-            "",
-//            label = "Email address",
-            onValueChange = { /*TODO*/ },
+        OutlinedTextField(
+            value = "",
+            placeholder = {
+                Text("Email address", style = MaterialTheme.typography.body1)
+            },
+            textStyle = MaterialTheme.typography.body1,
+            singleLine = true,
+            onValueChange = {
+
+            },
             modifier = Modifier
-                .fillMaxWidth()
                 .height(56.dp)
+                .fillMaxWidth()
         )
 
-        TextField(
+        OutlinedTextField(
             value = "",
+            textStyle = MaterialTheme.typography.body1,
+            placeholder = {
+                Text(
+                    "Password (8+ characters)",
+                    style = MaterialTheme.typography.body1,
+                    modifier = Modifier.fillMaxSize()
+                )
+            },
+            singleLine = true,
             onValueChange = {},
+
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(PaddingValues(top = 8.dp))
                 .height(56.dp)
+                .fillMaxWidth()
         )
 
         Spacer(
@@ -61,6 +78,7 @@ fun SignUp() {
             text = "By clicking below, you agree to our Terms of Use and consent to our Privacy Policy.",
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.fillMaxWidth()
         )
 
