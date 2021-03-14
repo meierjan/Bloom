@@ -19,6 +19,8 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androiddevchallenge.screen.Home
+import com.example.androiddevchallenge.screen.SignUp
+import com.example.androiddevchallenge.screen.Welcome
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                Home()
+                Welcome()
             }
         }
     }

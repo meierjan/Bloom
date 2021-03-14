@@ -153,7 +153,7 @@ fun PlantThemeTab(
 ) {
     Card(
         elevation = 1.dp,
-                shape = MaterialTheme . shapes . small,
+        shape = MaterialTheme.shapes.small,
         modifier = Modifier
             .width(160.dp)
             .height(136.dp)
