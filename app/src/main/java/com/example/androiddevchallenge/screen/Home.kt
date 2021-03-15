@@ -2,20 +2,82 @@ package com.example.androiddevchallenge.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
+
+data class Theme(
+    val title: String,
+    val image: Int,
+    val selected: Boolean = false
+)
+
+val themes = listOf(
+    Theme(
+        title = "Desert chic",
+        image = R.drawable.desert_chic
+    ),
+    Theme(
+        title = "Tiny Terrariums",
+        image = R.drawable.little_terrariums
+    ),
+    Theme(
+        title = "Jungle vibes",
+        image = R.drawable.jungle_vibes
+    ),
+    Theme(
+        title = "Easy care",
+        image = R.drawable.easy_care
+    ),
+    Theme(
+        title = "Statements",
+        image = R.drawable.statements
+    )
+)
+
+
+val designs = listOf(
+    Theme(
+        title = "Monstera",
+        image = R.drawable.monstera,
+        selected = true
+    ),
+    Theme(
+        title = "Aglaonema",
+        image = R.drawable.agloaonema
+    ),
+    Theme(
+        title = "Peace lily",
+        image = R.drawable.peace_lily
+    ),
+    Theme(
+        title = "Fiddle leaf tree",
+        image = R.drawable.fiddle_leaf
+    ),
+    Theme(
+        title = "Easy care",
+        image = R.drawable.easy_care
+    ),
+    Theme(
+        title = "Statements",
+        image = R.drawable.statements
+    ),
+)
 
 @Composable
 fun Home() {
@@ -34,7 +96,12 @@ fun Home() {
             value = "",
             textStyle = MaterialTheme.typography.body1,
             leadingIcon = {
-
+                Image(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.search),
+                    contentDescription = "Search",
+                    modifier = Modifier.size(18.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                )
             },
             placeholder = {
                 Text(
@@ -60,52 +127,17 @@ fun Home() {
                 .padding(top = 24.dp, bottom = 16.dp)
         )
 
-        Row(modifier = Modifier.fillMaxWidth()) {
-            PlantThemeTab(
-                title = "Desert chic",
-                thumbnail = painterResource(id = R.drawable.desert_chic)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-                    .height(64.dp)
-            )
-            PlantThemeTab(
-                title = "Tiny Terrariums",
-                thumbnail = painterResource(id = R.drawable.little_terrariums)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-                    .height(64.dp)
-            )
-            PlantThemeTab(
-                title = "Jungle vibes",
-                thumbnail = painterResource(id = R.drawable.jungle_vibes)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-                    .height(64.dp)
-            )
-            PlantThemeTab(
-                title = "Easy care",
-                thumbnail = painterResource(id = R.drawable.easy_care)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-                    .height(64.dp)
-            )
-            PlantThemeTab(
-                title = "Statements",
-                thumbnail = painterResource(id = R.drawable.statements)
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(8.dp)
-                    .height(64.dp)
-            )
+        LazyRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(themes) { item ->
+                PlantThemeTab(
+                    title = item.title,
+                    thumbnail = painterResource(id = item.image),
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+            }
+
         }
 
         Text(
@@ -115,46 +147,25 @@ fun Home() {
             modifier = Modifier.padding(top = 24.dp, bottom = 16.dp)
         )
 
-
-        PlanListItem(
-            title = "Monstera",
-            thumbnail = painterResource(id = R.drawable.monstera),
-            isSelected = true
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        PlanListItem(
-            title = "Aglaonema",
-            thumbnail = painterResource(id = R.drawable.agloaonema)
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        PlanListItem(
-            title = "Peace lily",
-            thumbnail = painterResource(id = R.drawable.peace_lily)
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        PlanListItem(
-            title = "Fiddle leaf tree",
-            thumbnail = painterResource(id = R.drawable.fiddle_leaf)
-        )
-
+        Column(Modifier.fillMaxWidth()) {
+            designs.forEach {
+                PlanListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
     }
 }
 
 @Composable
 fun PlantThemeTab(
     title: String,
-    thumbnail: Painter
+    thumbnail: Painter,
+    modifier: Modifier = Modifier
 ) {
     Card(
         elevation = 1.dp,
         shape = MaterialTheme.shapes.small,
-        modifier = Modifier
+        modifier = modifier
             .width(160.dp)
             .height(136.dp)
     ) {
@@ -184,45 +195,82 @@ fun PlantThemeTab(
 fun PlanListItem(
     title: String,
     description: String = "This is a description",
-    thumbnail: Painter,
+    thumbnail: Int,
     isSelected: Boolean = false
 ) {
 
-    Row(
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp)
     ) {
+
+        val (imageView, titleView, descriptionView, checkboxView, dividerView) = createRefs()
+
         Image(
-            painter = thumbnail,
+            painter = painterResource(thumbnail),
             contentDescription = title,
             modifier = Modifier
                 .width(64.dp)
                 .height(64.dp)
                 .clip(MaterialTheme.shapes.small)
+                .constrainAs(imageView) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
+
+
         )
 
-        Column(
+        Text(
+            text = title,
+            style = MaterialTheme.typography.h2,
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier
+                .paddingFromBaseline(top = 24.dp)
+                .padding(start = 16.dp)
+                .constrainAs(titleView) {
+                    top.linkTo(parent.top)
+                    start.linkTo(imageView.end)
+                    end.linkTo(checkboxView.start)
+                    width = Dimension.fillToConstraints
+                }
+        )
+        Text(
+            text = description,
+            style = MaterialTheme.typography.body1,
+            color = MaterialTheme.colors.onBackground,
             modifier = Modifier
                 .padding(start = 16.dp)
-                .height(64.dp)
+                .constrainAs(descriptionView) {
+                    top.linkTo(titleView.bottom)
+                    end.linkTo(checkboxView.start)
+                    start.linkTo(imageView.end)
+                    width = Dimension.fillToConstraints
+                }
+        )
+
+        Checkbox(
+            checked = isSelected,
+            onCheckedChange = { /*TODO*/ },
+            modifier = Modifier
+                .padding(bottom = 24.dp)
+                .constrainAs(checkboxView) {
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                })
+
+        Divider(
+            modifier = Modifier
+                .height(1.dp)
+                .padding(start = 8.dp)
                 .fillMaxWidth()
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.h2,
-                color = MaterialTheme.colors.onBackground,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onBackground,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+                .constrainAs(dividerView) {
+                    start.linkTo(imageView.end)
+                    bottom.linkTo(parent.bottom)
+                    width = Dimension.fillToConstraints
+                }
+        )
 
     }
     Spacer(
