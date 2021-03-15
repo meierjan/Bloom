@@ -1,9 +1,11 @@
 package com.example.androiddevchallenge.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -80,81 +82,155 @@ val designs = listOf(
 )
 
 @Composable
-fun Home() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp, 0.dp)
+fun NavBar() {
+    BottomNavigation(
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-        )
 
-        OutlinedTextField(
-            value = "",
-            textStyle = MaterialTheme.typography.body1,
-            leadingIcon = {
-                Image(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.search),
-                    contentDescription = "Search",
-                    modifier = Modifier.size(18.dp),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.home),
+                    contentDescription = ""
                 )
             },
-            placeholder = {
-                Text(
-                    "Search",
-                    style = MaterialTheme.typography.body1,
-                    modifier = Modifier.fillMaxWidth()
+            label = { Text("Home") },
+            selected = true,
+            onClick = {}
+
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.favorite_border),
+                    contentDescription = ""
                 )
             },
-            singleLine = true,
-            onValueChange = {},
+            label = { Text("Favorite") },
+            selected = false,
+            onClick = {}
 
-            modifier = Modifier
-                .height(56.dp)
-                .fillMaxWidth()
         )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.account_circle),
+                    contentDescription = ""
+                )
+            },
+            label = { Text("Profile") },
+            selected = false,
+            onClick = {}
 
-        Text(
-            text = "Browse themes",
-            style = MaterialTheme.typography.h1,
-            color = MaterialTheme.colors.onBackground,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 16.dp)
         )
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.shopping_cart),
+                    contentDescription = ""
+                )
+            },
+            label = { Text("Cart") },
+            selected = false,
+            onClick = {}
 
-        LazyRow(
-            modifier = Modifier.fillMaxWidth()
+        )
+    }
+
+}
+
+@Composable
+fun Home() {
+    Scaffold(
+        bottomBar = {
+            NavBar()
+        },
+    ) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(ScrollState(0))
+                .fillMaxWidth()
         ) {
-            items(themes) { item ->
-                PlantThemeTab(
-                    title = item.title,
-                    thumbnail = painterResource(id = item.image),
-                    modifier = Modifier.padding(end = 8.dp)
-                )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+            )
+
+            OutlinedTextField(
+                value = "",
+                textStyle = MaterialTheme.typography.body1,
+                leadingIcon = {
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.search),
+                        contentDescription = "Search",
+                        modifier = Modifier.size(18.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                    )
+                },
+                placeholder = {
+                    Text(
+                        "Search",
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(18.dp)
+                    )
+                },
+                singleLine = true,
+                onValueChange = {},
+
+                modifier = Modifier
+                    .height(56.dp)
+                    .padding(16.dp, 0.dp)
+                    .fillMaxWidth()
+            )
+
+            Text(
+                text = "Browse themes",
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onBackground,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 24.dp, bottom = 16.dp)
+            )
+
+            LazyRow(
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(themes) { item ->
+                    PlantThemeTab(
+                        title = item.title,
+                        thumbnail = painterResource(id = item.image),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
+
             }
 
-        }
+            Text(
+                text = "Design your home garden",
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onBackground,
+                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 16.dp)
+            )
 
-        Text(
-            text = "Design your home garden",
-            style = MaterialTheme.typography.h1,
-            color = MaterialTheme.colors.onBackground,
-            modifier = Modifier.padding(top = 24.dp, bottom = 16.dp)
-        )
-
-        Column(Modifier.fillMaxWidth()) {
-            designs.forEach {
-                PlanListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
-                Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp)
+            ) {
+                designs.forEach {
+                    PlanListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun PlantThemeTab(
