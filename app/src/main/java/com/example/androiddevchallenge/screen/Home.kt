@@ -1,18 +1,15 @@
 package com.example.androiddevchallenge.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -25,7 +22,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import com.example.androiddevchallenge.ui.theme.white150
 
 data class Theme(
     val title: String,
@@ -150,6 +146,7 @@ fun Home() {
         bottomBar = {
             NavBar()
         },
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
@@ -165,22 +162,22 @@ fun Home() {
             OutlinedTextField(
                 value = "",
                 textStyle = MaterialTheme.typography.body1,
-                leadingIcon = {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.search),
-                        contentDescription = "Search",
-                        modifier = Modifier.size(18.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
-                    )
-                },
                 placeholder = {
-                    Text(
-                        "Search",
-                        style = MaterialTheme.typography.body1,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(18.dp)
-                    )
+                    Row(Modifier.fillMaxWidth()) {
+                        Image(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.search),
+                            contentDescription = "Search",
+                            modifier = Modifier.size(18.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                        )
+                        Text(
+                            "Search",
+                            style = MaterialTheme.typography.body1,
+                            modifier = Modifier
+                                .padding(start = 6.dp)
+                                .fillMaxWidth()
+                        )
+                    }
                 },
                 singleLine = true,
                 onValueChange = {},
@@ -197,7 +194,8 @@ fun Home() {
                 color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 24.dp, bottom = 16.dp)
+                    .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
+                    .padding(start = 16.dp)
             )
 
             LazyRow(
@@ -214,12 +212,43 @@ fun Home() {
 
             }
 
-            Text(
-                text = "Design your home garden",
-                style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onBackground,
-                modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 16.dp)
-            )
+            ConstraintLayout(
+                Modifier
+                    .paddingFromBaseline(top = 40.dp, bottom = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()
+            ) {
+
+                val (textView, iconView) = createRefs()
+
+                Text(
+                    text = "Design your home garden",
+                    style = MaterialTheme.typography.h1,
+                    color = MaterialTheme.colors.onBackground,
+                    modifier = Modifier
+                        .constrainAs(textView) {
+                            start.linkTo(parent.start)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            end.linkTo(iconView.start)
+                            // bottom to parent.bottom
+                            width = Dimension.fillToConstraints
+
+                        }
+
+                )
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.filter_list),
+                    contentDescription = "Filter",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .constrainAs(iconView) {
+                            end.linkTo(parent.end)
+                            top.linkTo(textView.top)
+                            bottom.linkTo(textView.bottom)
+                        }
+                )
+            }
 
             Column(
                 Modifier
@@ -246,7 +275,7 @@ fun PlantThemeTab(
         elevation = 1.dp,
         shape = MaterialTheme.shapes.small,
         modifier = modifier
-            .width(160.dp)
+            .width(136.dp)
             .height(136.dp)
     ) {
         Column {
@@ -345,7 +374,6 @@ fun PlanListItem(
             modifier = Modifier
                 .height(1.dp)
                 .padding(start = 8.dp)
-                .fillMaxWidth()
                 .constrainAs(dividerView) {
                     start.linkTo(imageView.end)
                     bottom.linkTo(parent.bottom)
