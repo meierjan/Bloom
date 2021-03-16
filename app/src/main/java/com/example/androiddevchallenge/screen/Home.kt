@@ -5,11 +5,14 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -22,6 +25,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.example.androiddevchallenge.ui.theme.white150
 
 data class Theme(
     val title: String,
@@ -149,7 +153,7 @@ fun Home() {
     ) {
         Column(
             modifier = Modifier
-                .verticalScroll(ScrollState(0))
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
         ) {
             Spacer(
@@ -327,6 +331,7 @@ fun PlanListItem(
         )
 
         Checkbox(
+            colors = CheckboxDefaults.colors(checkmarkColor = MaterialTheme.colors.background),
             checked = isSelected,
             onCheckedChange = { /*TODO*/ },
             modifier = Modifier
