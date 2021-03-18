@@ -20,6 +20,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.screen.Home
+import com.example.androiddevchallenge.screen.Welcome
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
 //            WindowCompat.setDecorFitsSystemWindows(window, false)
             MyTheme {
-                Home()
+                Welcome()
             }
         }
     }

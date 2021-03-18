@@ -38,8 +38,8 @@ fun Welcome() {
                 imageVector = ImageVector.vectorResource(id = R.drawable.welcome_illos),
                 contentDescription = "Background-Leaf",
                 modifier = Modifier
-                    .padding(start = 88.dp, top = 72.dp, bottom = 48.dp)
-                    .fillMaxWidth()
+                    .padding(top = 72.dp, bottom = 48.dp)
+                    .offset(88.dp)
             )
 
             Image(
