@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
 //            WindowCompat.setDecorFitsSystemWindows(window, false)
             MyTheme {
-                Welcome()
+                Home()
             }
         }
     }

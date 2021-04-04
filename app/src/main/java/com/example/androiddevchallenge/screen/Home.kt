@@ -1,6 +1,7 @@
 package com.example.androiddevchallenge.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -179,13 +180,15 @@ fun Home() {
 
             LazyRow(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
-                modifier = Modifier.fillMaxWidth()
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             ) {
                 items(themes) { item ->
                     PlantThemeTab(
                         title = item.title,
-                        thumbnail = painterResource(id = item.image),
-                        modifier = Modifier.padding(end = 8.dp)
+                        thumbnail = painterResource(id = item.image)
                     )
                 }
 
@@ -193,7 +196,7 @@ fun Home() {
 
             ConstraintLayout(
                 Modifier
-                    .paddingFromBaseline(top = 40.dp, bottom = 16.dp)
+                    .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth()
             ) {
@@ -253,10 +256,23 @@ fun PlantThemeTab(
         elevation = 1.dp,
         shape = MaterialTheme.shapes.small,
         modifier = modifier
-            .width(136.dp)
-            .height(136.dp)
+            .size(144.dp)
+            // I don't know a better way of making the shadow work then
+            // adding the space here so it can be drawn
+            // I subtracted the padding from baseline padding of the
+            // element underneath
+            .padding(bottom = 8.dp)
+
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                    // I am not sure why I have to add this background here
+                    // but if we don't do this there is a weired square inside
+                    // (only on the phone)
+                .background(MaterialTheme.colors.surface)
+                .size(136.dp)
+
+        ) {
             Image(
                 painter = thumbnail,
                 contentDescription = title,
@@ -363,6 +379,22 @@ fun PlanListItem(
             .height(8.dp)
     )
 
+}
+
+@Preview("Dark Theme")
+@Composable
+fun LightPreviewPlantThemeTab() {
+    MyTheme(darkTheme = false) {
+        PlantThemeTab("blah", painterResource(R.drawable.monstera))
+    }
+}
+
+@Preview("Light Theme")
+@Composable
+fun DarkPreviewPlantThemeTab() {
+    MyTheme(darkTheme = true) {
+        PlantThemeTab("blah", painterResource(R.drawable.monstera))
+    }
 }
 
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
