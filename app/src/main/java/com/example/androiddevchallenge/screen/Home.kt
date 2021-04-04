@@ -89,48 +89,28 @@ fun NavBar() {
     ) {
 
         BottomNavigationItem(
-            icon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.home),
-                    contentDescription = ""
-                )
-            },
+            icon = { Icon(ImageVector.vectorResource(R.drawable.home), "Home") },
             label = { Text("Home") },
             selected = true,
             onClick = {}
 
         )
         BottomNavigationItem(
-            icon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.favorite_border),
-                    contentDescription = ""
-                )
-            },
+            icon = { Icon(ImageVector.vectorResource(R.drawable.favorite_border), "Favorite") },
             label = { Text("Favorite") },
             selected = false,
             onClick = {}
 
         )
         BottomNavigationItem(
-            icon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.account_circle),
-                    contentDescription = ""
-                )
-            },
+            icon = { Icon(ImageVector.vectorResource(R.drawable.account_circle), "Profile") },
             label = { Text("Profile") },
             selected = false,
             onClick = {}
 
         )
         BottomNavigationItem(
-            icon = {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.shopping_cart),
-                    contentDescription = ""
-                )
-            },
+            icon = { Icon(ImageVector.vectorResource(R.drawable.shopping_cart), "Cart") },
             label = { Text("Cart") },
             selected = false,
             onClick = {}
@@ -191,7 +171,6 @@ fun Home() {
             Text(
                 text = "Browse themes",
                 style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
                     .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
@@ -224,7 +203,6 @@ fun Home() {
                 Text(
                     text = "Design your home garden",
                     style = MaterialTheme.typography.h1,
-                    color = MaterialTheme.colors.onBackground,
                     modifier = Modifier
                         .constrainAs(textView) {
                             start.linkTo(parent.start)
@@ -290,7 +268,6 @@ fun PlantThemeTab(
             Text(
                 text = title,
                 style = MaterialTheme.typography.h2,
-                color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 16.dp)
@@ -334,7 +311,6 @@ fun PlanListItem(
         Text(
             text = title,
             style = MaterialTheme.typography.h2,
-            color = MaterialTheme.colors.onBackground,
             modifier = Modifier
                 .paddingFromBaseline(top = 24.dp)
                 .padding(start = 16.dp)
@@ -348,7 +324,6 @@ fun PlanListItem(
         Text(
             text = description,
             style = MaterialTheme.typography.body1,
-            color = MaterialTheme.colors.onBackground,
             modifier = Modifier
                 .padding(start = 16.dp)
                 .constrainAs(descriptionView) {
