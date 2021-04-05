@@ -25,6 +25,8 @@ fun SignUp(navigator: Navigator) {
     var password by remember { mutableStateOf("") }
     var emailInputState by remember { mutableStateOf("") }
 
+    val isSubmitPossible = password.isNotBlank() && emailInputState.isNotBlank()
+
 
     Column(
         modifier = Modifier
@@ -102,6 +104,7 @@ fun SignUp(navigator: Navigator) {
         Button(
             shape = MaterialTheme.shapes.medium,
             onClick = onLoginClicked,
+            enabled = isSubmitPossible,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.secondary,
                 contentColor = MaterialTheme.colors.onSecondary
