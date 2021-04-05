@@ -23,9 +23,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
-import com.example.androiddevchallenge.screen.home.Home
-import com.example.androiddevchallenge.screen.SignUp
 import com.example.androiddevchallenge.screen.Welcome
+import com.example.androiddevchallenge.screen.home.Home
+import com.example.androiddevchallenge.screen.register.SignUp
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 
@@ -59,9 +59,7 @@ class MainActivity : AppCompatActivity() {
                 NavHost(navController, startDestination = Screen.Welcome.route) {
 
                     composable(Screen.Welcome.route) { Welcome(navigator) }
-
                     composable(Screen.Home.route) { Home(navigator) }
-
                     composable(Screen.SignUp.route) { SignUp(navigator) }
 
                 }

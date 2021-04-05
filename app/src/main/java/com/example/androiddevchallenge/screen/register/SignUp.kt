@@ -1,12 +1,13 @@
-package com.example.androiddevchallenge.screen
+package com.example.androiddevchallenge.screen.register
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.Navigator
 import com.example.androiddevchallenge.Screen
 import com.example.androiddevchallenge.ui.theme.MyTheme
@@ -17,6 +18,13 @@ fun SignUp(navigator: Navigator) {
     val onLoginClicked = {
         navigator.navigate(Screen.Home)
     }
+
+    val viewModel = viewModel(SignUpViewModel::class.java)
+
+    // we should consider not storing the password for security reasons
+    var password by remember { mutableStateOf("") }
+    var emailInputState by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -41,22 +49,20 @@ fun SignUp(navigator: Navigator) {
                 .height(8.dp)
         )
         OutlinedTextField(
-            value = "",
+            value = emailInputState,
             placeholder = {
                 Text("Email address", style = MaterialTheme.typography.body1)
             },
             textStyle = MaterialTheme.typography.body1,
             singleLine = true,
-            onValueChange = {
-
-            },
+            onValueChange = { emailInputState = it },
             modifier = Modifier
                 .height(56.dp)
                 .fillMaxWidth()
         )
 
         OutlinedTextField(
-            value = "",
+            value = password,
             textStyle = MaterialTheme.typography.body1,
             placeholder = {
                 Text(
@@ -66,7 +72,7 @@ fun SignUp(navigator: Navigator) {
                 )
             },
             singleLine = true,
-            onValueChange = {},
+            onValueChange = { password = it },
 
             modifier = Modifier
                 .height(56.dp)
