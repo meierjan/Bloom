@@ -1,10 +1,14 @@
 package com.example.androiddevchallenge.screen.home
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,8 +23,13 @@ fun Home(navigator: Navigator) {
 
     val viewModel = viewModel(HomeViewModel::class.java)
 
+    val searchInput by viewModel.searchInput.observeAsState("")
+
+    val themes by viewModel.themes.observeAsState(emptyList())
+    val designs by viewModel.plants.observeAsState(emptyList())
+
     Scaffold(
-        topBar = { HomeTopSearchbar() },
+        topBar = { HomeTopSearchbar(viewModel) },
         bottomBar = { HomeNavigationBar() },
         modifier = Modifier
             .fillMaxWidth()
@@ -31,8 +40,8 @@ fun Home(navigator: Navigator) {
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
         ) {
-            ThemeSection(viewModel)
-            DesignsSection(viewModel)
+            ThemeSection(themes, searchInput)
+            DesignsSection(designs, searchInput)
         }
     }
 }

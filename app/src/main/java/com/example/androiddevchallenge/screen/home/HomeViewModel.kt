@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.androiddevchallenge.R
 
 
-
 class HomeViewModel : ViewModel() {
 
     private val _themes = MutableLiveData(decorationThemes)
@@ -15,6 +14,13 @@ class HomeViewModel : ViewModel() {
 
     private val _plants = MutableLiveData(designs)
     val plants: LiveData<List<PlantTypeModel>> = _plants
+
+    private val _searchInput = MutableLiveData("")
+    val searchInput: LiveData<String> = _searchInput
+
+    fun searchInputChanged(it: String) {
+        _searchInput.value = it
+    }
 }
 
 data class DecorationThemeModel(

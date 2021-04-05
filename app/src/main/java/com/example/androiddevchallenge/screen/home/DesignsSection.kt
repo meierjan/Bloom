@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,10 +15,16 @@ import androidx.constraintlayout.compose.Dimension
 import com.example.androiddevchallenge.R
 
 @Composable
-fun DesignsSection(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
+fun DesignsSection(
+    designList: List<PlantTypeModel>,
+    filterInput: String,
+    modifier: Modifier = Modifier
+) {
 
-    val designsState = viewModel.plants.observeAsState(emptyList())
-    val designs = designsState.value
+
+    val filteredDesigns = designList.filter {
+        it.title.contains(filterInput, ignoreCase = true)
+    }
 
     ConstraintLayout(
         modifier
@@ -63,7 +68,7 @@ fun DesignsSection(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .padding(16.dp, 0.dp)
     ) {
-        designs.forEach {
+        filteredDesigns.forEach {
             DesignSectionListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
             Spacer(modifier = Modifier.height(8.dp))
         }

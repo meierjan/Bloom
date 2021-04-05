@@ -9,7 +9,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -20,10 +19,18 @@ import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun ThemeSection(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
+fun ThemeSection(
+    themes: List<DecorationThemeModel>,
+    searchInput: String,
+    modifier: Modifier = Modifier
+) {
 
-    val themesState = viewModel.themes.observeAsState(emptyList())
-    val themes: List<DecorationThemeModel> = themesState.value
+    val displayedThemes = themes.filter {
+        it.title.contains(
+            searchInput,
+            ignoreCase = true
+        )
+    }
 
     Column(modifier.fillMaxWidth()) {
         Text(
@@ -42,7 +49,7 @@ fun ThemeSection(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         ) {
-            items(themes) { item ->
+            items(displayedThemes) { item ->
                 ThemeSectionListItem(
                     title = item.title,
                     thumbnail = painterResource(id = item.image)

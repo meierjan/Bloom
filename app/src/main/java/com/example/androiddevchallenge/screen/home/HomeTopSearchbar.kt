@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,10 +15,13 @@ import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.R
 
 @Composable
-fun HomeTopSearchbar(modifier: Modifier = Modifier) {
+fun HomeTopSearchbar(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
+
+    val searchInputState = viewModel.searchInput
+        .observeAsState("")
 
     OutlinedTextField(
-        value = "",
+        value = searchInputState.value,
         textStyle = MaterialTheme.typography.body1,
         placeholder = {
             Row(Modifier.fillMaxWidth()) {
@@ -37,7 +41,7 @@ fun HomeTopSearchbar(modifier: Modifier = Modifier) {
             }
         },
         singleLine = true,
-        onValueChange = {},
+        onValueChange = { viewModel.searchInputChanged(it)  },
         modifier = modifier
             .height(56.dp)
             .padding(16.dp, 0.dp)
