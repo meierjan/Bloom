@@ -23,7 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
-import com.example.androiddevchallenge.screen.Home
+import com.example.androiddevchallenge.screen.home.Home
 import com.example.androiddevchallenge.screen.SignUp
 import com.example.androiddevchallenge.screen.Welcome
 import com.example.androiddevchallenge.ui.theme.MyTheme
