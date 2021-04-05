@@ -14,6 +14,10 @@ import com.example.androiddevchallenge.ui.theme.MyTheme
 @Composable
 fun SignUp(navigator: Navigator) {
 
+    val onLoginClicked = {
+        navigator.navigate(Screen.Home)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -91,7 +95,7 @@ fun SignUp(navigator: Navigator) {
 
         Button(
             shape = MaterialTheme.shapes.medium,
-            onClick = { /*TODO*/ },
+            onClick = onLoginClicked,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.secondary,
                 contentColor = MaterialTheme.colors.onSecondary

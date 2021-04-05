@@ -20,6 +20,14 @@ import com.example.androiddevchallenge.ui.theme.MyTheme
 @Composable
 fun Welcome(navigator: Navigator) {
 
+    val onSignUpClicked = {
+        navigator.navigate(Screen.SignUp)
+    }
+
+    val onLoginClicked = {
+        navigator.navigate(Screen.Home)
+    }
+
     Box(
         Modifier
             .background(color = MaterialTheme.colors.primary)
@@ -66,7 +74,7 @@ fun Welcome(navigator: Navigator) {
 
             Button(
                 shape = MaterialTheme.shapes.medium,
-                onClick = { /*TODO*/ },
+                onClick = onSignUpClicked,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.secondary,
                     contentColor = MaterialTheme.colors.onSecondary
@@ -86,7 +94,7 @@ fun Welcome(navigator: Navigator) {
             )
 
             TextButton(
-                onClick = {},
+                onClick = onLoginClicked,
                 modifier = Modifier
                     .padding(16.dp, 0.dp)
                     .fillMaxWidth()
