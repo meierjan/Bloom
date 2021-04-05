@@ -1,5 +1,6 @@
 package com.example.androiddevchallenge.screen
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,59 +25,63 @@ import androidx.constraintlayout.compose.Dimension
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
-data class Theme(
+data class DecorationThemeModel(
     val title: String,
-    val image: Int,
-    val selected: Boolean = false
+    @DrawableRes val image: Int
 )
 
 val themes = listOf(
-    Theme(
+    DecorationThemeModel(
         title = "Desert chic",
         image = R.drawable.desert_chic
     ),
-    Theme(
+    DecorationThemeModel(
         title = "Tiny Terrariums",
         image = R.drawable.little_terrariums
     ),
-    Theme(
+    DecorationThemeModel(
         title = "Jungle vibes",
         image = R.drawable.jungle_vibes
     ),
-    Theme(
+    DecorationThemeModel(
         title = "Easy care",
         image = R.drawable.easy_care
     ),
-    Theme(
+    DecorationThemeModel(
         title = "Statements",
         image = R.drawable.statements
     )
 )
 
+data class PlantTypeModel(
+    val title: String,
+    @DrawableRes val image: Int,
+    val selected: Boolean = false
+)
 
 val designs = listOf(
-    Theme(
+    PlantTypeModel(
         title = "Monstera",
         image = R.drawable.monstera,
         selected = true
     ),
-    Theme(
+    PlantTypeModel(
         title = "Aglaonema",
         image = R.drawable.agloaonema
     ),
-    Theme(
+    PlantTypeModel(
         title = "Peace lily",
         image = R.drawable.peace_lily
     ),
-    Theme(
+    PlantTypeModel(
         title = "Fiddle leaf tree",
         image = R.drawable.fiddle_leaf
     ),
-    Theme(
+    PlantTypeModel(
         title = "Easy care",
         image = R.drawable.easy_care
     ),
-    Theme(
+    PlantTypeModel(
         title = "Statements",
         image = R.drawable.statements
     ),
