@@ -82,51 +82,12 @@ val designs = listOf(
     ),
 )
 
-@Composable
-fun NavBar() {
-    BottomNavigation(
-        backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-
-        BottomNavigationItem(
-            icon = { Icon(ImageVector.vectorResource(R.drawable.home), "Home") },
-            label = { Text("Home") },
-            selected = true,
-            onClick = {}
-
-        )
-        BottomNavigationItem(
-            icon = { Icon(ImageVector.vectorResource(R.drawable.favorite_border), "Favorite") },
-            label = { Text("Favorite") },
-            selected = false,
-            onClick = {}
-
-        )
-        BottomNavigationItem(
-            icon = { Icon(ImageVector.vectorResource(R.drawable.account_circle), "Profile") },
-            label = { Text("Profile") },
-            selected = false,
-            onClick = {}
-
-        )
-        BottomNavigationItem(
-            icon = { Icon(ImageVector.vectorResource(R.drawable.shopping_cart), "Cart") },
-            label = { Text("Cart") },
-            selected = false,
-            onClick = {}
-
-        )
-    }
-
-}
 
 @Composable
 fun Home() {
     Scaffold(
-        bottomBar = {
-            NavBar()
-        },
+        topBar = { HomeTopSearchbar(Modifier) },
+        bottomBar = { HomeNavigationBar() },
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -134,120 +95,83 @@ fun Home() {
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
         ) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-            )
-
-            OutlinedTextField(
-                value = "",
-                textStyle = MaterialTheme.typography.body1,
-                placeholder = {
-                    Row(Modifier.fillMaxWidth()) {
-                        Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.search),
-                            contentDescription = "Search",
-                            modifier = Modifier.size(18.dp),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
-                        )
-                        Text(
-                            "Search",
-                            style = MaterialTheme.typography.body1,
-                            modifier = Modifier
-                                .padding(start = 6.dp)
-                                .fillMaxWidth()
-                        )
-                    }
-                },
-                singleLine = true,
-                onValueChange = {},
-
-                modifier = Modifier
-                    .height(56.dp)
-                    .padding(16.dp, 0.dp)
-                    .fillMaxWidth()
-            )
-
-            Text(
-                text = "Browse themes",
-                style = MaterialTheme.typography.h1,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
-                    .padding(start = 16.dp)
-            )
-
-            LazyRow(
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            ) {
-                items(themes) { item ->
-                    PlantThemeTab(
-                        title = item.title,
-                        thumbnail = painterResource(id = item.image)
-                    )
-                }
-
-            }
-
-            ConstraintLayout(
-                Modifier
-                    .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
-                    .padding(start = 16.dp, end = 16.dp)
-                    .fillMaxWidth()
-            ) {
-
-                val (textView, iconView) = createRefs()
-
-                Text(
-                    text = "Design your home garden",
-                    style = MaterialTheme.typography.h1,
-                    modifier = Modifier
-                        .constrainAs(textView) {
-                            start.linkTo(parent.start)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                            end.linkTo(iconView.start)
-                            // bottom to parent.bottom
-                            width = Dimension.fillToConstraints
-
-                        }
-
-                )
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.filter_list),
-                    contentDescription = "Filter",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .constrainAs(iconView) {
-                            end.linkTo(parent.end)
-                            top.linkTo(textView.top)
-                            bottom.linkTo(textView.bottom)
-                        }
-                )
-            }
-
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp, 0.dp)
-            ) {
-                designs.forEach {
-                    PlanListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
+            ThemeSection()
+            DesignsSection()
         }
     }
 }
 
+@Composable
+fun HomeTopSearchbar(modifier: Modifier) {
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+    )
+
+    OutlinedTextField(
+        value = "",
+        textStyle = MaterialTheme.typography.body1,
+        placeholder = {
+            Row(Modifier.fillMaxWidth()) {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.search),
+                    contentDescription = "Search",
+                    modifier = Modifier.size(18.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
+                )
+                Text(
+                    "Search",
+                    style = MaterialTheme.typography.body1,
+                    modifier = Modifier
+                        .padding(start = 6.dp)
+                        .fillMaxWidth()
+                )
+            }
+        },
+        singleLine = true,
+        onValueChange = {},
+        modifier = modifier
+            .height(56.dp)
+            .padding(16.dp, 0.dp)
+            .fillMaxWidth()
+    )
+
+}
+
 
 @Composable
-fun PlantThemeTab(
+fun ThemeSection(modifier: Modifier = Modifier) {
+    Column(modifier.fillMaxWidth()) {
+        Text(
+            text = "Browse themes",
+            style = MaterialTheme.typography.h1,
+            modifier = Modifier
+                .fillMaxWidth()
+                .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
+                .padding(start = 16.dp)
+        )
+
+        LazyRow(
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        ) {
+            items(themes) { item ->
+                ThemeSectionListItem(
+                    title = item.title,
+                    thumbnail = painterResource(id = item.image)
+                )
+            }
+
+        }
+    }
+}
+
+@Composable
+fun ThemeSectionListItem(
     title: String,
     thumbnail: Painter,
     modifier: Modifier = Modifier
@@ -266,9 +190,9 @@ fun PlantThemeTab(
     ) {
         Column(
             modifier = Modifier
-                    // I am not sure why I have to add this background here
-                    // but if we don't do this there is a weired square inside
-                    // (only on the phone)
+                // I am not sure why I have to add this background here
+                // but if we don't do this there is a weired square inside
+                // (only on the phone)
                 .background(MaterialTheme.colors.surface)
                 .size(136.dp)
 
@@ -293,8 +217,60 @@ fun PlantThemeTab(
     }
 }
 
+
 @Composable
-fun PlanListItem(
+fun DesignsSection(modifier: Modifier = Modifier) {
+    ConstraintLayout(
+        modifier
+            .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
+            .padding(start = 16.dp, end = 16.dp)
+            .fillMaxWidth()
+    ) {
+
+        val (textView, iconView) = createRefs()
+
+        Text(
+            text = "Design your home garden",
+            style = MaterialTheme.typography.h1,
+            modifier = Modifier
+                .constrainAs(textView) {
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(iconView.start)
+                    // bottom to parent.bottom
+                    width = Dimension.fillToConstraints
+
+                }
+
+        )
+        Icon(
+            imageVector = ImageVector.vectorResource(id = R.drawable.filter_list),
+            contentDescription = "Filter",
+            modifier = Modifier
+                .size(24.dp)
+                .constrainAs(iconView) {
+                    end.linkTo(parent.end)
+                    top.linkTo(textView.top)
+                    bottom.linkTo(textView.bottom)
+                }
+        )
+    }
+
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 0.dp)
+    ) {
+        designs.forEach {
+            DesignSectionListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+fun DesignSectionListItem(
     title: String,
     description: String = "This is a description",
     thumbnail: Int,
@@ -381,11 +357,51 @@ fun PlanListItem(
 
 }
 
+
+@Composable
+fun HomeNavigationBar() {
+    BottomNavigation(
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+
+        BottomNavigationItem(
+            icon = { Icon(ImageVector.vectorResource(R.drawable.home), "Home") },
+            label = { Text("Home") },
+            selected = true,
+            onClick = {}
+
+        )
+        BottomNavigationItem(
+            icon = { Icon(ImageVector.vectorResource(R.drawable.favorite_border), "Favorite") },
+            label = { Text("Favorite") },
+            selected = false,
+            onClick = {}
+
+        )
+        BottomNavigationItem(
+            icon = { Icon(ImageVector.vectorResource(R.drawable.account_circle), "Profile") },
+            label = { Text("Profile") },
+            selected = false,
+            onClick = {}
+
+        )
+        BottomNavigationItem(
+            icon = { Icon(ImageVector.vectorResource(R.drawable.shopping_cart), "Cart") },
+            label = { Text("Cart") },
+            selected = false,
+            onClick = {}
+
+        )
+    }
+}
+
+
 @Preview("Dark Theme")
 @Composable
 fun LightPreviewPlantThemeTab() {
     MyTheme(darkTheme = false) {
-        PlantThemeTab("blah", painterResource(R.drawable.monstera))
+        ThemeSectionListItem("blah", painterResource(R.drawable.monstera))
     }
 }
 
@@ -393,7 +409,7 @@ fun LightPreviewPlantThemeTab() {
 @Composable
 fun DarkPreviewPlantThemeTab() {
     MyTheme(darkTheme = true) {
-        PlantThemeTab("blah", painterResource(R.drawable.monstera))
+        ThemeSectionListItem("blah", painterResource(R.drawable.monstera))
     }
 }
 
