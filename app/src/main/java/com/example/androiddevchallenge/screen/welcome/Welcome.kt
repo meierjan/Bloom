@@ -1,4 +1,4 @@
-package com.example.androiddevchallenge.screen
+package com.example.androiddevchallenge.screen.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.Navigator
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.Screen
@@ -20,13 +21,10 @@ import com.example.androiddevchallenge.ui.theme.MyTheme
 @Composable
 fun Welcome(navigator: Navigator) {
 
-    val onSignUpClicked = {
-        navigator.navigate(Screen.SignUp)
-    }
+    val onSignUpClicked = { navigator.navigate(Screen.SignUp) }
+    val onLoginClicked = { navigator.navigate(Screen.Home) }
 
-    val onLoginClicked = {
-        navigator.navigate(Screen.Home)
-    }
+    val viewModel = viewModel(WelcomeViewModel::class.java)
 
     Box(
         Modifier
