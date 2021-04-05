@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,6 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
@@ -30,7 +35,7 @@ data class DecorationThemeModel(
     @DrawableRes val image: Int
 )
 
-val themes = listOf(
+val decorationThemes = listOf(
     DecorationThemeModel(
         title = "Desert chic",
         image = R.drawable.desert_chic
@@ -88,31 +93,40 @@ val designs = listOf(
 )
 
 
+class HomeViewModel : ViewModel() {
+
+    private val _themes = MutableLiveData(decorationThemes)
+    val themes: LiveData<List<DecorationThemeModel>> = _themes
+
+    private val _plants = MutableLiveData(designs)
+    val plants: LiveData<List<PlantTypeModel>> = _plants
+}
+
 @Composable
 fun Home() {
+
+    val viewModel = viewModel(HomeViewModel::class.java)
+
     Scaffold(
-        topBar = { HomeTopSearchbar(Modifier) },
+        topBar = { HomeTopSearchbar() },
         bottomBar = { HomeNavigationBar() },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 40.dp)
     ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
         ) {
-            ThemeSection()
-            DesignsSection()
+            ThemeSection(viewModel)
+            DesignsSection(viewModel)
         }
     }
 }
 
 @Composable
-fun HomeTopSearchbar(modifier: Modifier) {
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(40.dp)
-    )
+fun HomeTopSearchbar(modifier: Modifier = Modifier) {
 
     OutlinedTextField(
         value = "",
@@ -146,7 +160,11 @@ fun HomeTopSearchbar(modifier: Modifier) {
 
 
 @Composable
-fun ThemeSection(modifier: Modifier = Modifier) {
+fun ThemeSection(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
+
+    val themesState = viewModel.themes.observeAsState(emptyList())
+    val themes: List<DecorationThemeModel> = themesState.value
+
     Column(modifier.fillMaxWidth()) {
         Text(
             text = "Browse themes",
@@ -224,7 +242,11 @@ fun ThemeSectionListItem(
 
 
 @Composable
-fun DesignsSection(modifier: Modifier = Modifier) {
+fun DesignsSection(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
+
+    val designsState = viewModel.plants.observeAsState(emptyList())
+    val designs = designsState.value
+
     ConstraintLayout(
         modifier
             .paddingFromBaseline(top = 32.dp, bottom = 16.dp)
