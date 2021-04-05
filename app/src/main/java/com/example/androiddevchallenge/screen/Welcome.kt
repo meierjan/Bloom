@@ -12,11 +12,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.Navigator
 import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.Screen
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun Welcome() {
+fun Welcome(navigator: Navigator) {
 
     Box(
         Modifier
@@ -103,7 +105,10 @@ fun Welcome() {
 @Composable
 fun LightPreviewLogin() {
     MyTheme {
-        Welcome()
+        val navigator = object : Navigator {
+            override fun navigate(screen: Screen) {}
+        }
+        Welcome(navigator)
     }
 }
 
@@ -111,6 +116,9 @@ fun LightPreviewLogin() {
 @Composable
 fun DarkPreviewLogin() {
     MyTheme(darkTheme = true) {
-        Welcome()
+        val navigator = object : Navigator {
+            override fun navigate(screen: Screen) {}
+        }
+        Welcome(navigator)
     }
 }

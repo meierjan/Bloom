@@ -7,10 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.Navigator
+import com.example.androiddevchallenge.Screen
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 @Composable
-fun SignUp() {
+fun SignUp(navigator: Navigator) {
 
     Column(
         modifier = Modifier
@@ -108,7 +110,10 @@ fun SignUp() {
 @Composable
 fun LightPreviewSignUp() {
     MyTheme {
-        SignUp()
+        val navigator = object : Navigator {
+            override fun navigate(screen: Screen) {}
+        }
+        SignUp(navigator)
     }
 }
 
@@ -116,6 +121,9 @@ fun LightPreviewSignUp() {
 @Composable
 fun DarkPreviewSignUp() {
     MyTheme(darkTheme = true) {
-        SignUp()
+        val navigator = object : Navigator {
+            override fun navigate(screen: Screen) {}
+        }
+        SignUp(navigator)
     }
 }

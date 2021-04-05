@@ -27,7 +27,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.androiddevchallenge.Navigator
 import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.Screen
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 data class DecorationThemeModel(
@@ -103,7 +105,7 @@ class HomeViewModel : ViewModel() {
 }
 
 @Composable
-fun Home() {
+fun Home(navigator: Navigator) {
 
     val viewModel = viewModel(HomeViewModel::class.java)
 
@@ -444,7 +446,10 @@ fun DarkPreviewPlantThemeTab() {
 @Composable
 fun LightPreviewHome() {
     MyTheme(darkTheme = false) {
-        Home()
+        val navigator = object : Navigator {
+            override fun navigate(screen: Screen) {}
+        }
+        Home(navigator)
     }
 }
 
@@ -452,6 +457,9 @@ fun LightPreviewHome() {
 @Composable
 fun DarkPreviewHome() {
     MyTheme(darkTheme = true) {
-        Home()
+        val navigator = object : Navigator {
+            override fun navigate(screen: Screen) {}
+        }
+        Home(navigator)
     }
 }

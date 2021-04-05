@@ -18,10 +18,30 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.screen.Home
+import com.example.androiddevchallenge.screen.SignUp
 import com.example.androiddevchallenge.screen.Welcome
 import com.example.androiddevchallenge.ui.theme.MyTheme
+
+
+sealed class Screen(val route: String) {
+    object Welcome : Screen("onboarding")
+    object Home : Screen("home")
+    object SignUp : Screen("sign-up")
+}
+
+interface Navigator {
+    fun navigate(screen: Screen)
+}
+
+class NavigatorImp(private val navController: NavController) : Navigator {
+    override fun navigate(screen: Screen) = navController.navigate(screen.route)
+}
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +50,28 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
 //            WindowCompat.setDecorFitsSystemWindows(window, false)
+
+            val navController = rememberNavController()
+
+            val navigator: Navigator = NavigatorImp(navController)
+
             MyTheme {
-                Home()
+                NavHost(navController, startDestination = Screen.Welcome.route) {
+
+                    composable(Screen.Welcome.route) { Welcome(navigator) }
+
+                    composable(Screen.Home.route) { Home(navigator) }
+
+                    composable(Screen.SignUp.route) { SignUp(navigator) }
+
+                }
+
             }
         }
     }
 }
+
+
 
 
 
