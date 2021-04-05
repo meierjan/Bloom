@@ -18,13 +18,12 @@ import com.example.androiddevchallenge.R
 fun DesignsSection(
     designList: List<PlantTypeModel>,
     filterInput: String,
+    onDesignSelectedStateChanged: (PlantTypeModel, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
 
-    val filteredDesigns = designList.filter {
-        it.title.contains(filterInput, ignoreCase = true)
-    }
+    val filteredDesigns = designList.filter { it.matchesSearch(filterInput) }
 
     ConstraintLayout(
         modifier
@@ -69,7 +68,10 @@ fun DesignsSection(
             .padding(16.dp, 0.dp)
     ) {
         filteredDesigns.forEach {
-            DesignSectionListItem(title = it.title, thumbnail = it.image, isSelected = it.selected)
+            DesignSectionListItem(
+                it,
+                onStateChanged = onDesignSelectedStateChanged
+            )
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -77,10 +79,8 @@ fun DesignsSection(
 
 @Composable
 fun DesignSectionListItem(
-    title: String,
-    description: String = "This is a description",
-    thumbnail: Int,
-    isSelected: Boolean = false
+    plant: PlantTypeModel,
+    onStateChanged: (PlantTypeModel, Boolean) -> Unit
 ) {
 
     ConstraintLayout(
@@ -92,8 +92,8 @@ fun DesignSectionListItem(
         val (imageView, titleView, descriptionView, checkboxView, dividerView) = createRefs()
 
         Image(
-            painter = painterResource(thumbnail),
-            contentDescription = title,
+            painter = painterResource(plant.image),
+            contentDescription = plant.title,
             modifier = Modifier
                 .width(64.dp)
                 .height(64.dp)
@@ -107,7 +107,7 @@ fun DesignSectionListItem(
         )
 
         Text(
-            text = title,
+            text = plant.title,
             style = MaterialTheme.typography.h2,
             modifier = Modifier
                 .paddingFromBaseline(top = 24.dp)
@@ -120,7 +120,7 @@ fun DesignSectionListItem(
                 }
         )
         Text(
-            text = description,
+            text = plant.description,
             style = MaterialTheme.typography.body1,
             modifier = Modifier
                 .padding(start = 16.dp)
@@ -134,8 +134,8 @@ fun DesignSectionListItem(
 
         Checkbox(
             colors = CheckboxDefaults.colors(checkmarkColor = MaterialTheme.colors.background),
-            checked = isSelected,
-            onCheckedChange = { /*TODO*/ },
+            checked = plant.selected,
+            onCheckedChange = { onStateChanged(plant, it) },
             modifier = Modifier
                 .padding(bottom = 24.dp)
                 .constrainAs(checkboxView) {

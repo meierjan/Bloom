@@ -41,7 +41,11 @@ fun Home(navigator: Navigator) {
                 .fillMaxWidth()
         ) {
             ThemeSection(themes, searchInput)
-            DesignsSection(designs, searchInput)
+            DesignsSection(
+                designs,
+                searchInput,
+                { model, bool -> viewModel.onDesignItemSelectionChanged(model, bool) }
+            )
         }
     }
 }
